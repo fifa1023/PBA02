@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js with Text Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* スクロールバーを非表示にする */
+        }
+        #overlayText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 10; /* テキストを最前面に表示 */
+            pointer-events: none; /* テキストがクリックを受けないようにする */
+        }
+    </style>
+</head>
+<body>
+    <!-- タイプライター効果用の空のテキスト要素 -->
+    <div id="overlayText"></div>
+
+    <!-- Three.jsのスクリプト -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
