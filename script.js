@@ -4,8 +4,9 @@ function typeWriter(text, elementId, speed) {
     const element = document.getElementById(elementId);
 
     function type() {
+        // カーソルを追加してテキストを更新
+        element.innerHTML = text.substring(0, i) + '<span class="cursor">_</span>';
         if (i < text.length) {
-            element.innerHTML += text.charAt(i);
             i++;
             setTimeout(type, speed);
         } else {
@@ -15,8 +16,9 @@ function typeWriter(text, elementId, speed) {
     }
 
     function deleteText() {
+        // カーソルを追加して文字を削除
+        element.innerHTML = text.substring(0, i) + '<span class="cursor">_</span>';
         if (i > 0) {
-            element.innerHTML = text.substring(0, i - 1);
             i--;
             setTimeout(deleteText, speed);
         } else {
