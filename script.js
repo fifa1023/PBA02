@@ -105,7 +105,8 @@ initializeStars(SETTINGS.radius, SETTINGS.amount);
 
 // シンプルなマテリアルを使用
 const material = new THREE.PointsMaterial({
-    color: 0x99ccff,
+    // color: 0x99ccff,
+    color: 0xd7f00a,
     size: 1.0,
     transparent: true,
     opacity: 0.9,
