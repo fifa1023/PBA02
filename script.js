@@ -1,14 +1,43 @@
 // タイプライター風のテキスト表示と削除を行う
-function typeWriter(text, elementId, speed) {
+function typeWriterWithMistake(elementId, speed) {
     let i = 0;
     const element = document.getElementById(elementId);
 
+    // 各段階のテキスト
+    const text1 = "PLANETARY B LAND"; // 間違って入力する部分
+    const text2 = "PLANETARY BRAND ARCHITECT"; // 正しい最終的なテキスト
+
     function type() {
-        // カーソルを追加してテキストを更新
-        element.innerHTML = text.substring(0, i) + '<span class="cursor">_</span>';
-        if (i < text.length) {
+        if (i < text1.length) {
+            // 「PLANETARY B LAND」をタイプする
+            element.innerHTML = text1.substring(0, i + 1) + '<span class="cursor">_</span>';
             i++;
             setTimeout(type, speed);
+        } else if (i === text1.length) {
+            // 少し待ってから「LAND」を削除開始
+            setTimeout(deleteMistake, 1000);
+        }
+    }
+
+    function deleteMistake() {
+        if (i > "PLANETARY B ".length) {
+            // 「LAND」を削除する
+            element.innerHTML = text1.substring(0, i - 1) + '<span class="cursor">_</span>';
+            i--;
+            setTimeout(deleteMistake, speed);
+        } else {
+            // 削除が終わったら正しいテキストの入力を再開
+            i = "PLANETARY B".length; // 次は「BRAND ARCHITECT」に進む
+            setTimeout(typeCorrect, speed);
+        }
+    }
+
+    function typeCorrect() {
+        if (i < text2.length) {
+            // 正しいテキストをタイプする
+            element.innerHTML = text2.substring(0, i + 1) + '<span class="cursor">_</span>';
+            i++;
+            setTimeout(typeCorrect, speed);
         } else {
             // タイピングが完了したら5秒後に削除を開始
             setTimeout(deleteText, 5000);
@@ -16,13 +45,13 @@ function typeWriter(text, elementId, speed) {
     }
 
     function deleteText() {
-        // カーソルを追加して文字を削除
-        element.innerHTML = text.substring(0, i) + '<span class="cursor">_</span>';
+        element.innerHTML = text2.substring(0, i) + '<span class="cursor">_</span>';
         if (i > 0) {
             i--;
             setTimeout(deleteText, speed);
         } else {
             // 削除が完了したら再度タイピングを開始
+            i = 0; // 最初に戻る
             setTimeout(type, 1000);
         }
     }
@@ -31,12 +60,12 @@ function typeWriter(text, elementId, speed) {
 }
 
 // タイプライター効果を開始
-typeWriter("PLANETARY BRAND ARCHITECT", "overlayText", 100); // 100msごとに一文字表示、削除
+typeWriterWithMistake("overlayText", 100); // 100msごとに一文字表示、削除
 
 // シーン、カメラ、レンダラーの設定
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 400; // カメラの配置 数字大きくすると離れる
+camera.position.z = 400; // カメラを遠くに配置して多くの星が見えるように
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -105,8 +134,7 @@ initializeStars(SETTINGS.radius, SETTINGS.amount);
 
 // シンプルなマテリアルを使用
 const material = new THREE.PointsMaterial({
-    // color: 0x99ccff,
-    color: 0xd7f00a,
+    color: 0xd7f00a, // カラーコードを明るい黄色に変更
     size: 1.0,
     transparent: true,
     opacity: 0.9,
@@ -161,10 +189,10 @@ function checkIfTransitionComplete(currentPositions, targetPositions) {
     const threshold = 0.1; // 許容する誤差の範囲
     for (let i = 0; i < currentPositions.length; i++) {
         if (Math.abs(currentPositions[i] - targetPositions[i]) > threshold) {
-            return false; // どれかが目標位置に十分近くないならまだ変化中とさせる
+            return false; // どれかが目標位置に十分近くないならまだ変化中
         }
     }
-    return true; // 全ての頂点が目標位置に十分近ければ先に進める
+    return true; // 全ての頂点が目標位置に十分近い
 }
 
 animate();
