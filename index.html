@@ -21,10 +21,19 @@
             z-index: 10; /* テキストを最前面に表示 */
             pointer-events: none; /* テキストがクリックを受けないようにする */
         }
+        .cursor {
+            display: inline-block;
+            animation: blink 1s infinite step-end;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- タイプライター効果用の空のテキスト要素 -->
+    <!-- タイプライター効果で文字が追加されるため、最初は空の状態 -->
     <div id="overlayText"></div>
 
     <!-- Three.jsのスクリプト -->
