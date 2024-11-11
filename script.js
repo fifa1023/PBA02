@@ -36,7 +36,7 @@ typeWriter("PLANETARY BRAND ARCHITECT", "overlayText", 100); // 100msごとに�
 // シーン、カメラ、レンダラーの設定
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 400; // カメラを遠くに配置して多くの星が見えるように
+camera.position.z = 400; // カメラの配置 数字大きくすると離れる
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -160,10 +160,10 @@ function checkIfTransitionComplete(currentPositions, targetPositions) {
     const threshold = 0.1; // 許容する誤差の範囲
     for (let i = 0; i < currentPositions.length; i++) {
         if (Math.abs(currentPositions[i] - targetPositions[i]) > threshold) {
-            return false; // どれかが目標位置に十分近くないならまだ変化中
+            return false; // どれかが目標位置に十分近くないならまだ変化中とさせる
         }
     }
-    return true; // 全ての頂点が目標位置に十分近い
+    return true; // 全ての頂点が目標位置に十分近ければ先に進める
 }
 
 animate();
